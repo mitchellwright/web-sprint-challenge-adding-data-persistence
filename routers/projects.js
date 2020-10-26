@@ -12,6 +12,21 @@ router.get("/projects", async (req, res, next) => {
   }
 });
 
+router.post("/projects", async (req, res, next) => {
+  try {
+    const project = await Project.createProject(req.body);
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not created",
+      });
+    }
+
+    res.json(project);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/projects/:id", async (req, res, next) => {
   try {
     const project = await Project.findById(req.params.id);
