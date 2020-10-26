@@ -9,18 +9,10 @@ function findById(id) {
 }
 
 function findProjectTasks(projectID) {
-  return db("projects_animals as za")
-    .innerJoin("projects as z", "z.id", "za.zoo_id")
-    .innerJoin("animals as a", "a.id", "za.animal_id")
-    .innerJoin("species as s", "s.id", "a.species_id")
-    .where("z.id", zooID)
-    .select([
-      "a.id",
-      "a.name",
-      "s.name as species_name",
-      "za.arrival",
-      "za.departure",
-    ]);
+  return db("tasks as t")
+    .innerJoin("projects as p", "p.id", "t.project_id")
+    .where("p.id", projectID)
+    .select(["t.id", "t.description", "t.notes", "t.task_completed"]);
 }
 
 module.exports = {
